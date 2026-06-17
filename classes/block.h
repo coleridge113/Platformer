@@ -2,15 +2,16 @@
 
 #include "raylib.h"
 
-struct Block {
+struct Block 
+{
     static constexpr float GRAVITY = 0.4f;
     static constexpr int JUMP_FORCE = -10;
 
-    float x;
-    float y;
-    int width;
-    int height;
-    Color color;
+    float x = 0.f;
+    float y = 0.f;
+    int width = 0;
+    int height = 0;
+    Color color = BLACK;
 
     float velocity = 0.f;
     bool isGrounded = false;
