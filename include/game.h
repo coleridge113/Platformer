@@ -25,21 +25,19 @@ struct Game
 
     void handleInput()
     {
-        int keyPressed = GetKeyPressed();
-
-        switch (keyPressed)
+        if (IsKeyPressed(KEY_SPACE))
         {
-            case KEY_SPACE:
-                block.jump();
-                break;
-            case KEY_J:
-                block.move(-1, 0);
-                break;
-            case KEY_L:
-                block.move(1, 0);
-                break;
-            default:
-                break;
+            block.jump();
+        }
+
+        if (IsKeyDown(KEY_J))
+        {
+            block.move(-1, 0);
+        }
+
+        if (IsKeyDown(KEY_L))
+        {
+            block.move(1, 0);
         }
     }
 
@@ -50,6 +48,12 @@ struct Game
         {
             a.velY = 0;
             a.posY = b.posY - a.height;
+            a.isJumping = false;
         }
+    }
+
+    void handleMovement(int keyPressed)
+    {
+        
     }
 };

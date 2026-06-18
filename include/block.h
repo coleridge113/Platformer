@@ -19,7 +19,7 @@ struct Block
     
     void jump()
     {
-        if (isJumping) 
+        if (!isJumping) 
         {
             velY = jumpForce;
             isJumping = true;
@@ -30,19 +30,9 @@ struct Block
     {
         posY += velY;
         velY += gravity;
-
-        if (posY >= windowHeight - 10)
-        {
-            velY = 0;
-            isJumping = false;
-        }
-        else
-        {
-            isJumping = true;
-        }
     }
 
-    void draw()
+    constexpr void draw() const
     {
         DrawRectangle(static_cast<int>(posX), static_cast<int>(posY), width, height, color);
     }
