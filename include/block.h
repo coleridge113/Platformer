@@ -1,11 +1,11 @@
 #pragma once
 
 #include "raylib.h"
+#include "constants.h"
 
 struct Block 
 {
-    static constexpr float GRAVITY = 0.4f;
-    static constexpr int JUMP_FORCE = -10;
+    static constexpr int jumpForce = -10;
 
     float x = 0.f;
     float y = 0.f;
@@ -14,27 +14,30 @@ struct Block
     Color color = BLACK;
 
     float velocity = 0.f;
-    bool isGrounded = false;
+    bool isJumping = false;
     
     void jump()
     {
-        if (isGrounded) {
-            velocity = JUMP_FORCE;
-            isGrounded = false;
+        if (isJumping) 
+        {
+            velocity = jumpForce;
+            isJumping = true;
         }
     }
 
     void update()
     {
         y += velocity;
-        velocity += GRAVITY;
+        velocity += gravity;
 
-        if (y >= 620 - height) {
-            y = 620 - height;
+        if (y >= windowHeight - 10)
+        {
             velocity = 0;
-            isGrounded = true;
-        } else {
-            isGrounded = false;
+            isJumping = false;
+        }
+        else
+        {
+            isJumping = true;
         }
     }
 
