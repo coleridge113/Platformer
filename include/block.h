@@ -6,33 +6,34 @@
 struct Block 
 {
     static constexpr int jumpForce = -10;
+    static constexpr int velX = 5;
 
-    float x = 0.f;
-    float y = 0.f;
+    float posX = 0.f;
+    float posY = 0.f;
     int width = 0;
     int height = 0;
     Color color = BLACK;
 
-    float velocity = 0.f;
+    float velY = 0.f;
     bool isJumping = false;
     
     void jump()
     {
         if (isJumping) 
         {
-            velocity = jumpForce;
+            velY = jumpForce;
             isJumping = true;
         }
     }
 
     void update()
     {
-        y += velocity;
-        velocity += gravity;
+        posY += velY;
+        velY += gravity;
 
-        if (y >= windowHeight - 10)
+        if (posY >= windowHeight - 10)
         {
-            velocity = 0;
+            velY = 0;
             isJumping = false;
         }
         else
@@ -43,6 +44,12 @@ struct Block
 
     void draw()
     {
-        DrawRectangle(static_cast<int>(x), static_cast<int>(y), width, height, color);
+        DrawRectangle(static_cast<int>(posX), static_cast<int>(posY), width, height, color);
+    }
+
+    void move(int x, int y)
+    {
+        posX += x * velX;
+        posY += y * velY;
     }
 };

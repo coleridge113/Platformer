@@ -32,6 +32,12 @@ struct Game
             case KEY_SPACE:
                 block.jump();
                 break;
+            case KEY_J:
+                block.move(-1, 0);
+                break;
+            case KEY_L:
+                block.move(1, 0);
+                break;
             default:
                 break;
         }
@@ -39,11 +45,11 @@ struct Game
 
     void handleCollision(Block& a, Block& b)
     {
-        float bottomA = a.y + a.height;
-        if (bottomA >= b.y)
+        float bottomA = a.posY + a.height;
+        if (bottomA >= b.posY)
         {
-            a.velocity = 0;
-            a.y = b.y - a.height;
+            a.velY = 0;
+            a.posY = b.posY - a.height;
         }
     }
 };
