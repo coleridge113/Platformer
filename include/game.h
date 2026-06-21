@@ -3,6 +3,9 @@
 #include "block.h"
 #include "constants.h"
 #include "raylib.h"
+#include "utils.h"
+#include <cstddef>
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 
@@ -12,14 +15,14 @@ struct Game
     Block block { windowWidth / 2.f, floorY - 100, 30, 30, GRAY };
 
     std::vector<Block> platforms {
-        Block{ 50, floorY - 40, 100, 1, DARKBLUE },
-        Block{ 300, floorY - 80, 100, 1, DARKBLUE }
+        Block{ 0, floorY, windowWidth, 1, DARKBLUE },
     };
 
     Block wallLeft { 0, 0, 1, windowHeight, BLACK };
     Block wallRight { windowWidth, 0, 1, windowHeight, BLACK };
-    Block floor { 0, floorY, windowWidth, 1, DARKBLUE };
-    
+
+    Block floor = platforms[0];
+
     void draw()
     {
 
@@ -30,7 +33,7 @@ struct Game
         handleCollisionY(block, floor);
         handleCollisionLeft(block, wallLeft);
         handleCollisionRight(block, wallRight);
-        handlePLatformsCollision();
+        handlePlatformsCollision();
 
         block.draw();
         floor.draw();
@@ -39,6 +42,10 @@ struct Game
 
         drawPlatforms();
 
+        if (platforms.size() < 10)
+        {
+            generatePlatform();
+        }
     }
 
     void handleInput()
@@ -95,11 +102,22 @@ struct Game
         }
     }
 
-    void handlePLatformsCollision()
+    void handlePlatformsCollision()
     {
         for (auto& platform : platforms)
         {
             handleCollisionY(block, platform);
         }
+    }
+
+    void generatePlatform()
+    {
+        float posX = generateRandom(20, 380);
+        float posY = generateRandom(70, 100);
+
+        Block previousPlatform = platforms[platforms.size() - 1];
+        Block newPlatform = { posX, previousPlatform.posY - posY , 100, 1, DARKBLUE };
+
+        platforms.push_back(newPlatform);
     }
 };
