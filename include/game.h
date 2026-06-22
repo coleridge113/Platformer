@@ -119,7 +119,7 @@ struct Game
     void generatePlatform()
     {
         float posX = generateRandom(20, 380);
-        float posY = generateRandom(70, 100);
+        float posY = generateRandom(90, 120);
 
         Block previousPlatform = platforms.back();
         Block newPlatform = { posX, previousPlatform.posY - posY , 100, 1, DARKBLUE };
@@ -131,7 +131,7 @@ struct Game
     {
         for (auto& p : platforms)
         {
-            p.posY += 1;
+            p.posY += 1.3;
         }
         generatePlatform();
     }
