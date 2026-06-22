@@ -146,16 +146,10 @@ struct Game
 
     void restartGame()
     {
-        Block block { windowWidth / 2.f, floorY - 100, 30, 30, GRAY };
-
+        gameOver = false;
         std::vector<Block> platforms {
             Block{ 0, floorY, windowWidth, 1, DARKBLUE },
         };
-
-        Block wallLeft { 0, 0, 1, windowHeight, BLACK };
-        Block wallRight { windowWidth, 0, 1, windowHeight, BLACK };
-
-        bool gameOver = false;
 
     }
 };
