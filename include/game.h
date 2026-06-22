@@ -21,7 +21,7 @@ struct Game
     Block wallLeft { 0, 0, 1, windowHeight, BLACK };
     Block wallRight { windowWidth, 0, 1, windowHeight, BLACK };
 
-    Block floor = platforms[0];
+    Block& floor = platforms[0];
 
     void draw()
     {
@@ -39,12 +39,16 @@ struct Game
         floor.draw();
         wallLeft.draw();
         wallRight.draw();
-
         drawPlatforms();
 
         if (platforms.size() < 10)
         {
             generatePlatform();
+        }
+
+        if (block.posY < windowHeight / 2)
+        {
+            movePlatformsDown();
         }
     }
 
@@ -115,9 +119,17 @@ struct Game
         float posX = generateRandom(20, 380);
         float posY = generateRandom(70, 100);
 
-        Block previousPlatform = platforms[platforms.size() - 1];
+        Block previousPlatform = platforms.back();
         Block newPlatform = { posX, previousPlatform.posY - posY , 100, 1, DARKBLUE };
 
         platforms.push_back(newPlatform);
+    }
+
+    void movePlatformsDown()
+    {
+        for (auto& p : platforms)
+        {
+            p.posY += 1;
+        }
     }
 };
