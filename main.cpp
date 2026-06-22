@@ -9,6 +9,7 @@ int main()
     SetTargetFPS(targetFPS);
 
     Game game {};
+    Font font = GetFontDefault();
 
     while (!WindowShouldClose())
     {
@@ -18,6 +19,13 @@ int main()
 
         {
             game.draw();
+
+            if (game.gameOver)
+            {
+                DrawTextEx(font, "Game Over", 
+                        { (windowWidth / 2) - 70, (windowHeight / 2) - 80 }, 
+                        32, 2, WHITE);
+            }
         }
 
         EndDrawing();

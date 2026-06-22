@@ -21,7 +21,7 @@ struct Game
     Block wallLeft { 0, 0, 1, windowHeight, BLACK };
     Block wallRight { windowWidth, 0, 1, windowHeight, BLACK };
 
-    Block& floor = platforms[0];
+    bool gameOver = false;
 
     void draw()
     {
@@ -30,13 +30,11 @@ struct Game
 
         block.update();
 
-        handleCollisionY(block, floor);
         handleCollisionLeft(block, wallLeft);
         handleCollisionRight(block, wallRight);
         handlePlatformsCollision();
 
         block.draw();
-        floor.draw();
         wallLeft.draw();
         wallRight.draw();
         drawPlatforms();
@@ -46,10 +44,17 @@ struct Game
             generatePlatform();
         }
 
+        while (!platforms.empty() && platforms.front().posY > windowHeight)
+        {
+            platforms.erase(platforms.begin());
+        }
+
         if (block.posY < windowHeight / 2)
         {
             movePlatformsDown();
         }
+
+        updateGameOver();
     }
 
     void handleInput()
@@ -63,17 +68,14 @@ struct Game
     {
         bool isBlockWithin = (a.posX < b.posX + b.width) && ((a.posX + a.width) > b.posX);
 
-        if (isBlockWithin)
+        if (isBlockWithin && a.velY >= 0.f)
         {
-            if (a.velY >= 0.f)
+            float prevBottom = a.posY + a.height - (a.velY - gravity);
+            if (prevBottom <= b.posY && (a.posY + a.height) >= b.posY)
             {
-                float prevBottom = a.posY + a.height - (a.velY - gravity);
-                if (prevBottom <= b.posY && (a.posY + a.height) >= b.posY)
-                {
-                    a.velY = 0.f;
-                    a.posY = b.posY - a.height;
-                    a.isJumping = false;
-                }
+                a.velY = 0.f;
+                a.posY = b.posY - a.height;
+                a.isJumping = false;
             }
         }
     }
@@ -130,6 +132,15 @@ struct Game
         for (auto& p : platforms)
         {
             p.posY += 1;
+        }
+        generatePlatform();
+    }
+
+    void updateGameOver()
+    {
+        if (block.posY > windowHeight)
+        {
+            gameOver = true;
         }
     }
 };
