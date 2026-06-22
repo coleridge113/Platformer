@@ -25,6 +25,11 @@ int main()
                 DrawTextEx(font, "Game Over", 
                         { (windowWidth / 2) - 70, (windowHeight / 2) - 80 }, 
                         32, 2, WHITE);
+
+                if (GetKeyPressed() != 0)
+                {
+                    game = Game {};
+                }
             }
         }
 

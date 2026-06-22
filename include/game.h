@@ -59,9 +59,9 @@ struct Game
 
     void handleInput()
     {
-        if (IsKeyPressed(KEY_SPACE))    block.jump();
         if (IsKeyDown(KEY_J))           block.move(-1, 0);
         if (IsKeyDown(KEY_L))           block.move(1, 0);
+        if (IsKeyPressed(KEY_SPACE))    block.jump();
     }
 
     void handleCollisionY(Block& a, Block& b)
@@ -142,5 +142,20 @@ struct Game
         {
             gameOver = true;
         }
+    }
+
+    void restartGame()
+    {
+        Block block { windowWidth / 2.f, floorY - 100, 30, 30, GRAY };
+
+        std::vector<Block> platforms {
+            Block{ 0, floorY, windowWidth, 1, DARKBLUE },
+        };
+
+        Block wallLeft { 0, 0, 1, windowHeight, BLACK };
+        Block wallRight { windowWidth, 0, 1, windowHeight, BLACK };
+
+        bool gameOver = false;
+
     }
 };
